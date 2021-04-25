@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import sample.BackEnd.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,30 +20,37 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
+import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 public class Main extends Application {
+    static private Vector<Engimon> ListOfGeneratedEngimon = new Vector<Engimon>();
+    static Player P = new Player();
+    static Command cmd = new Command();
+
+    public static void walk(String direction){
+        cmd.inputCommand(direction);
+        cmd.executeCommand(ListOfGeneratedEngimon,P);
+
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-
-        Engimon E = new Engimon();
-        E.setImage("/assets/engi1-kanan-big.png");
-        E.set_posisi(new Point(13,2));
+        Engimon starter = new Engimon();
+        P.addEngimonPlayer(starter);
+        P.setActiveEngimon(starter);
+        P.setImage("/assets/chara.png");
+        P.getActiveEngimon().setImage("/assets/engi2.png");
 
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
         primaryStage.setTitle("Engimon's World");
-
 
         Canvas canvas = new Canvas(1360,768);
         root.getChildren().add(canvas);
 
         GraphicsContext gd = canvas.getGraphicsContext2D();
-
-        //gd.setFill(Color.BLUE);
-
-//        gd.drawImage(engi1,10*32+2,12*32-5);
-        E.render(gd);
+        P.render(gd);
+        starter.render(gd);
 
         primaryStage.setScene(new Scene(root));
 
@@ -48,7 +58,28 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
+//        while (true){
+//            P.render(gd);
+//            P.getActiveEngimon().render(gd);
+//        }
     }
+
+//    private void handleKeyPress(KeyEvent e){
+//        if (e.getCode()==KeyCode.W){
+//            cmd.inputCommand("up");
+//            cmd.executeCommand(ListOfGeneratedEngimon,P);
+//        }else if (e.getCode()==KeyCode.A){
+//            cmd.inputCommand("left");
+//            cmd.executeCommand(ListOfGeneratedEngimon,P);
+//        }else if (e.getCode()==KeyCode.S){
+//            cmd.inputCommand("down");
+//            cmd.executeCommand(ListOfGeneratedEngimon,P);
+//        }else if (e.getCode()==KeyCode.D) {
+//            cmd.inputCommand("right");
+//            cmd.executeCommand(ListOfGeneratedEngimon, P);
+//        }
+//
+//    }
 
 
     public static void main(String[] args) {

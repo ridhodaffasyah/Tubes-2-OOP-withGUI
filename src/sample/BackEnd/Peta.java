@@ -55,14 +55,14 @@ public class Peta {
 
             if (xTotal<0){
                 xTotal=0;
-            }else if(xTotal>9){
-                xTotal=9;
+            }else if(xTotal>41){
+                xTotal=41;
             }
 
             if (yTotal<0){
                 yTotal=0;
-            }else if (yTotal>11){
-                yTotal = 11;
+            }else if (yTotal>23){
+                yTotal = 23;
             }
 
             boolean foundGoodPosition = false;
@@ -75,14 +75,14 @@ public class Peta {
                     yTotal = yCurrent+yDiff; 
                     if (xTotal<0){
                         xTotal=0;
-                    }else if(xTotal>9){
-                        xTotal=9;
+                    }else if(xTotal>41){
+                        xTotal=41;
                     }
         
                     if (yTotal<0){
                         yTotal=0;
-                    }else if (yTotal>11){
-                        yTotal = 11;
+                    }else if (yTotal>23){
+                        yTotal = 23;
                     }
                     fixPosition = new Point(xTotal,yTotal);
                 }else{
@@ -94,13 +94,13 @@ public class Peta {
     }
     
     public static boolean constraintEngimon(String elements, int x, int y){
-        if (elements.contains("Fire") && x<5 && y<6){
+        if (elements.contains("Fire") && x<21 && y<12){
             return true;
-        }else if (elements.contains("Water") && y>5 && x<5){
+        }else if (elements.contains("Water") && y<12 && x>20){
             return true;
-        }else if ((elements.contains("Electric") || elements.contains("Ground")) && x>4 && y<6){
+        }else if ((elements.contains("Electric") || elements.contains("Ground")) && x<21 && y>11){
             return true;
-        }else if (elements.contains("Ice") && x>4 && y>5){
+        }else if (elements.contains("Ice") && x>20 && y>11){
             return true;
         }else{
             return false;

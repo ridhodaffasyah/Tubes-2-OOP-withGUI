@@ -23,7 +23,7 @@ public class Game {
 
     public void run(){
         Map.printMap(ListOfWildEngimon, P);
-        cmd.inputCommand();
+//        cmd.inputCommand();
         cmd.executeCommand(ListOfWildEngimon, P);
         Map.movingWildEngimon(ListOfWildEngimon, P);
         try {

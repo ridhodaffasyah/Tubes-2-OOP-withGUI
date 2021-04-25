@@ -1,8 +1,11 @@
 package sample.BackEnd;
 
+import javafx.scene.canvas.GraphicsContext;
+import sample.Sprite;
+
 import java.util.*;
 
-public class Player {
+public class Player extends Sprite {
 
     // public String inputCommandMove;
     protected Point posisi;
@@ -355,7 +358,11 @@ public class Player {
         }
         return max;
     }
-    
+
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.drawImage(image,32*getPosisiPlayer().getX()+2, 32*getPosisiPlayer().getY()-5);
+    }
 
     // public static void main(String[] args){
     //     Player P = new Player();

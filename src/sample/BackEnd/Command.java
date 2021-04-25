@@ -9,11 +9,12 @@ public class Command {
 
     public Command(){}
 
-    public void inputCommand() {
-        System.out.print(">>> ");
-        Scanner command = new Scanner(System.in);
-        currentCommand = command.nextLine().strip();
-        System.out.println(currentCommand);
+    public void inputCommand(String cmd) {
+//        System.out.print(">>> ");
+//        Scanner command = new Scanner(System.in);
+//        currentCommand = command.nextLine().strip();
+//        System.out.println(currentCommand);
+        currentCommand = cmd;
     }
 
     public void executeCommand(Vector<Engimon> listOfWildEngimon, Player P){
@@ -244,7 +245,7 @@ public class Command {
     private boolean isPositionValid(Point P) {
         int x = P.getX();
         int y = P.getY();
-        return (x >= 0) && (x < 10) && (y >= 0) && (y < 12);
+        return (x >= 0) && (x < 42) && (y >= 0) && (y < 24);
     }
 
     private void resolvePlayerNewPosition(String command, Player P) {
@@ -286,7 +287,7 @@ public class Command {
         Vector<Engimon> VE = new Vector<Engimon>();
 
         Pt.printMap(VE, Pl);
-        C.inputCommand();
+//        C.inputCommand();
         C.executeCommand(VE,Pl);
         Pt = new Peta();
         Pt.printMap(VE, Pl);
