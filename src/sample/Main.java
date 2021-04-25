@@ -23,15 +23,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Path currentRelativePath = Paths.get("");
-        String s = currentRelativePath.toAbsolutePath().toString();
-        System.out.println("Current relative path is: " + s);
-        //new Image(new File("chara.png").toURI().toURL().toExternalForm());
-        Image engi1 = new Image("chara.png");
-//        System.out.println("Current relative path is: " + s);
-//        Engimon E = new Engimon();
-//        E.setImage("engi1-kanan.png");
-//        E.set_posisi(new Point(13,2));
+
+        Engimon E = new Engimon();
+        E.setImage("/assets/engi1-kanan-big.png");
+        E.set_posisi(new Point(13,2));
 
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
         primaryStage.setTitle("Engimon's World");
@@ -44,8 +39,8 @@ public class Main extends Application {
 
         //gd.setFill(Color.BLUE);
 
-        gd.drawImage(engi1,10*32+2,12*32-5);
-//        E.render(gd);
+//        gd.drawImage(engi1,10*32+2,12*32-5);
+        E.render(gd);
 
         primaryStage.setScene(new Scene(root));
 

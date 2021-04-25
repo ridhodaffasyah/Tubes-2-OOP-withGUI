@@ -22,8 +22,7 @@ public abstract class Sprite
 
     public void setImage(String filename)
     {
-        image = new Image(new File(filename).toURI().toString());
-
+        image = new Image(filename);
     }
 
 //    public void setPosition(int x, int y)
