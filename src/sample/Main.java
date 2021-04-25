@@ -40,7 +40,7 @@ public class Main extends Application {
         P.addEngimonPlayer(starter);
         P.setActiveEngimon(starter);
         P.setImage("/assets/chara.png");
-        P.getActiveEngimon().setImage("/assets/engi2.png");
+        P.getActiveEngimon().setImage("/assets/engi1-kanan.png");
 
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
         primaryStage.setTitle("Engimon's World");
@@ -48,20 +48,43 @@ public class Main extends Application {
         Canvas canvas = new Canvas(1360,768);
         root.getChildren().add(canvas);
 
+        Scene scene = new Scene(root,1360,768);
+
         GraphicsContext gd = canvas.getGraphicsContext2D();
         P.render(gd);
         starter.render(gd);
 
-        primaryStage.setScene(new Scene(root));
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                gd.clearRect(0,0,1360,768);
+                if (keyEvent.getCode()==KeyCode.W){
+                    cmd.inputCommand("left");
+                    cmd.executeCommand(ListOfGeneratedEngimon,P);
+                }else if (keyEvent.getCode()==KeyCode.A){
+                    cmd.inputCommand("up");
+                    cmd.executeCommand(ListOfGeneratedEngimon,P);
+                }else if (keyEvent.getCode()==KeyCode.S){
+                    cmd.inputCommand("right");
+                    cmd.executeCommand(ListOfGeneratedEngimon,P);
+                }else if (keyEvent.getCode()==KeyCode.D){
+                    cmd.inputCommand("down");
+                    cmd.executeCommand(ListOfGeneratedEngimon,P);
+                }
+                P.render(gd);
+                P.getActiveEngimon().render(gd);
+            }
+        });
+
+
+
+        primaryStage.setScene(scene);
 
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(false);
         primaryStage.show();
 
-//        while (true){
-//            P.render(gd);
-//            P.getActiveEngimon().render(gd);
-//        }
+
     }
 
 //    private void handleKeyPress(KeyEvent e){
