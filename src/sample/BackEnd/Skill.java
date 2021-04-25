@@ -1,3 +1,5 @@
+package sample.BackEnd;
+
 
 public class Skill implements Comparable<Skill>{
     protected String namaSkill;

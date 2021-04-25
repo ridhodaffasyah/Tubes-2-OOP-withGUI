@@ -1,3 +1,4 @@
+package sample.BackEnd;
 
 public class Point implements Comparable<Point> {
     protected int x;

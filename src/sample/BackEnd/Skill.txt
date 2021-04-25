@@ -1,0 +1,179 @@
+Charge Beam
+Electric
+50
+
+Rising Voltage
+Electric
+70
+
+Parabolic Charge
+Electric
+65
+
+Plasma Fists
+Electric
+100
+
+Zap Cannon
+Electric
+120
+
+Lava Plume
+Fire
+80
+
+Incinerate
+Fire
+65
+
+Overheat
+Fire
+130
+
+Searing Shot
+Fire
+100
+
+Flame Wheel
+Fire
+65
+
+Earthquake
+Ground
+120
+
+Rock Tomb
+Ground
+100
+
+Stomping Tantrum
+Ground
+65
+
+Mud Shot
+Ground
+50
+
+Swamp Mud
+Ground
+80
+
+Ice Punch
+Ice
+90
+
+Ice Shard
+Ice
+65
+
+Glacial Lance
+Ice
+130
+
+Freeze-Dry
+Ice
+70
+
+Burning Ice
+Ice
+110
+
+Swim
+Water
+100
+
+Hydro Pump
+Water
+120
+
+Gun Shot
+Water
+65
+
+Waterfall
+Water
+80
+
+Scald
+Water
+90
+
+Fire Ball
+Fire
+50
+
+Fire Claw
+Fire
+100
+
+Fire Breathe
+Fire
+150
+
+Fire Punch
+Fire
+210
+
+Electric Ball
+Electric
+65
+
+Electric Claw
+Electric
+105
+
+Electric Slash
+Electric
+140
+
+Giga Volt
+Electric
+200
+
+Ice Ball
+Ice
+45
+
+Ice Smash
+Ice
+60
+
+Water Spread
+Water
+130
+
+Water Bomb
+Water
+190
+
+Water Ball
+Water
+48
+
+Water Float
+Water
+65
+
+Ice punch
+Ice
+145
+
+Ice Bomb
+Ice
+195
+
+Ground Ball
+Ground
+60
+
+Ground Punch
+Ground
+80
+
+Ground Smash
+Ground
+145
+
+Ground Bomb
+Ground
+198

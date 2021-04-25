@@ -1,5 +1,8 @@
+package sample.BackEnd;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,7 +14,10 @@ public class Peta {
 
     public Peta(){
         try{
-            Scanner scanFile = new Scanner(new File("src/map.txt"));
+//            Path currentRelativePath = Paths.get("");
+//            String s = currentRelativePath.toAbsolutePath().toString();
+//            System.out.println("Current relative path is: " + s);
+            Scanner scanFile = new Scanner(new File("src/sample/BackEnd/map.txt"));
             String line;
             int i=0;
 

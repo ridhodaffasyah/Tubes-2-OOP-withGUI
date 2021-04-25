@@ -1,4 +1,4 @@
-
+package sample.BackEnd;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ public class Generate {
     public static Vector<Vector<String>> readFromFile(String nameOfFile) throws IOException {
         Vector<Vector<String>> retval = new Vector<Vector<String>>();
         try {
-            Scanner scanFile = new Scanner(new File("src/" + nameOfFile));
+            Scanner scanFile = new Scanner(new File("src/sample/BackEnd/" + nameOfFile));
             
             String line;
             while(scanFile.hasNextLine()){

@@ -1,3 +1,5 @@
+package sample.BackEnd;
+
 
 public class InventoryException extends Exception{
 

@@ -1,11 +1,12 @@
+package sample.BackEnd;
 
-import sample.Peta.Point;
-
+import javafx.scene.canvas.GraphicsContext;
+import sample.Sprite;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Engimon implements Comparable<Engimon>{
+public class Engimon extends Sprite implements Comparable<Engimon>{
     //protected atribut
     /*1*/ protected String name;
     /*2*/ protected int life = 3;
@@ -51,6 +52,7 @@ public class Engimon implements Comparable<Engimon>{
             engiSkill.add(skill);
         }
     }
+
     public Engimon(Engimon engi){
         this.name = engi.name;
         this.parentsName = engi.parentsName;
@@ -421,6 +423,11 @@ public class Engimon implements Comparable<Engimon>{
         }else{
             return -1;
         }
+    }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.drawImage( image, 32*posisi.getX()+2, 32*posisi.getY()-5 );
     }
 
 }

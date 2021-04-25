@@ -1,3 +1,5 @@
+package sample.BackEnd;
+
 public class Cell extends Point{
     protected char cellType;
     
