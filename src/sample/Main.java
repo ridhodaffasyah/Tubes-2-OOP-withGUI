@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import sample.BackEnd.*;
@@ -12,30 +13,56 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import sample.BackEnd.Point;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
 public class Main extends Application {
-    static private Vector<Engimon> ListOfGeneratedEngimon = new Vector<Engimon>();
+    static private Vector<Engimon> ListOfGeneratedEngimon = new Vector<>();
     static Player P = new Player();
     static Command cmd = new Command();
+
+    Button button;
+    Button button2;
 
     public static void walk(String direction){
         cmd.inputCommand(direction);
         cmd.executeCommand(ListOfGeneratedEngimon,P);
-
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        Pane rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
+
+        primaryStage.setTitle("Engimon's World!");
+        primaryStage.setScene(new Scene(rootStart, 1360, 768));
+
+        Image image = new Image("/assets/mulai.png");
+        ImageView imageView = new ImageView(image);
+
+        button = new Button("",imageView);
+        button.setLayoutX(520);
+        button.setLayoutY(500);
+
+        Image image2 = new Image("/assets/exit1.png");
+        ImageView imageView2 = new ImageView(image2);
+
+        button2 = new Button("",imageView2);
+        button2.setLayoutX(520);
+        button2.setLayoutY(620);
+
+        //button.setOnAction(actionEvent -> primaryStage.setScene());
+
+        button2.setOnAction(actionEvent -> {
+            Object node = actionEvent.getSource();
+            System.out.println(node instanceof Button);
+            assert node instanceof Button;
+            System.exit(1);
+        });
+
+        rootStart.getChildren().addAll(button, button2);
+
         Engimon starter = new Engimon();
         P.addEngimonPlayer(starter);
         P.setActiveEngimon(starter);
@@ -76,34 +103,13 @@ public class Main extends Application {
             }
         });
 
-
-
-        primaryStage.setScene(scene);
+        button.setOnAction(actionEvent -> primaryStage.setScene(scene));
 
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(false);
         primaryStage.show();
 
-
     }
-
-//    private void handleKeyPress(KeyEvent e){
-//        if (e.getCode()==KeyCode.W){
-//            cmd.inputCommand("up");
-//            cmd.executeCommand(ListOfGeneratedEngimon,P);
-//        }else if (e.getCode()==KeyCode.A){
-//            cmd.inputCommand("left");
-//            cmd.executeCommand(ListOfGeneratedEngimon,P);
-//        }else if (e.getCode()==KeyCode.S){
-//            cmd.inputCommand("down");
-//            cmd.executeCommand(ListOfGeneratedEngimon,P);
-//        }else if (e.getCode()==KeyCode.D) {
-//            cmd.inputCommand("right");
-//            cmd.executeCommand(ListOfGeneratedEngimon, P);
-//        }
-//
-//    }
-
 
     public static void main(String[] args) {
         launch(args);
