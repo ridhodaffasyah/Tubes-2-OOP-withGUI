@@ -17,6 +17,10 @@ public abstract class Sprite
         image = new Image(filename);
     }
 
+    public Image getImage(){
+        return  image;
+    }
+
     public abstract void render(GraphicsContext gc);
 
 }

@@ -1,5 +1,7 @@
 package sample.BackEnd;
 
+import javafx.scene.text.Text;
+
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -40,7 +42,7 @@ public class Command {
                     }
                     
                     if (confirm.equals("y")){
-                        battleBetween(enemy, P, listOfWildEngimon);
+//                        battleBetween(enemy, P, listOfWildEngimon);
                     }
                     break;
                 }
@@ -152,7 +154,7 @@ public class Command {
         return max;
     }
 
-    private Engimon findWildEngi(Vector<Engimon> listOfWildEngimon, Player P) throws CommandException{
+    public Engimon findWildEngi(Vector<Engimon> listOfWildEngimon, Player P) throws CommandException{
         for (Engimon engimon : listOfWildEngimon) {
             if (Point.isAdjacent(engimon.get_posisi().getX(), engimon.get_posisi().getY(), P.getPosisiPlayer().getX(), P.getPosisiPlayer().getY())) {
                 return engimon;
@@ -161,7 +163,7 @@ public class Command {
         throw new CommandException("Tidak ada engimon liar di dekatmu!");
     }
     
-    private void battleBetween(Engimon eng2, Player currentPlayer, Vector<Engimon> listOfWildEngimon){
+    public void battleBetween(Engimon eng2, Player currentPlayer, Vector<Engimon> listOfWildEngimon, Text outputText){
 
         Engimon eng1 = currentPlayer.getActiveEngimon();
 
@@ -179,7 +181,7 @@ public class Command {
         if ( totalPower1 < totalPower2){
             //decrement Life
             eng1.decLife();
-            System.out.println(eng1.get_name() + " Telah Kalah! Sisa life engimonmu: " +eng1.get_life());
+            outputText.setText(eng1.get_name() + " Telah Kalah! Sisa life engimonmu: " +eng1.get_life());
             
             //pengecekan apakah life 0 atau tidak
             if (eng1.get_life()==0){
@@ -198,24 +200,26 @@ public class Command {
                 }
             }
 
-            // pengecekan apakah ingin battle lagi atau tidak
-            System.out.print("\nIngin melawan lagi? (y/n)");
-            Scanner scan = new Scanner(System.in);
-            String confirm = scan.nextLine();
-            while (!confirm.equals("y") && !confirm.equals("n")){
-                System.out.println("Error input!\n");
-                System.out.print("\nIngin melawan lagi? (y/n)");
-                confirm = scan.nextLine();
-            }
-            if (confirm.equals("y")){
-                battleBetween(eng2, currentPlayer, listOfWildEngimon);
-            }
+//            // pengecekan apakah ingin battle lagi atau tidak
+//            System.out.print("\nIngin melawan lagi? (y/n)");
+//            Scanner scan = new Scanner(System.in);
+//            String confirm = scan.nextLine();
+//            while (!confirm.equals("y") && !confirm.equals("n")){
+//                System.out.println("Error input!\n");
+//                System.out.print("\nIngin melawan lagi? (y/n)");
+//                confirm = scan.nextLine();
+//            }
+//            if (confirm.equals("y")){
+//                battleBetween(eng2, currentPlayer, listOfWildEngimon);
+//            }
         }
         else{
-            System.out.println(eng1.get_name() + " Telah Menang! ");
-
             //xp nambah
-            int alive = eng1.incExp((int) (totalPower1-totalPower2));
+            int diffPower = (int) (totalPower1-totalPower2);
+            int alive = eng1.incExp(diffPower*10);
+
+            outputText.setText(eng1.get_name() + " Telah Menang! \nMendapatkan " + diffPower*10 + "Exp");
+
             if (alive==1){
                 System.out.println("\nEngimon anda telah mencapai level 50 dan akan mati!");
                 currentPlayer.deleteEngimonPlayer(eng1);

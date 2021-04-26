@@ -41,12 +41,13 @@ public class Peta {
         }
     }
 
-    public void movingWildEngimon(Vector<Engimon> listOfWildEngimon, Player P){
+    public static void movingWildEngimon(Vector<Engimon> listOfWildEngimon, Player P){
         Random randMove = new Random();
         int xDiff = randMove.nextInt(3) - 1;   
         int yDiff =  randMove.nextInt(3) - 1; 
 
         for (int i=0;i<listOfWildEngimon.size();i++){
+            listOfWildEngimon.get(i).incExp(40);
             int xCurrent = listOfWildEngimon.get(i).get_posisi().getX();
             int yCurrent = listOfWildEngimon.get(i).get_posisi().getY(); 
 

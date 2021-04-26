@@ -31,6 +31,23 @@ public class GenerateEngimon extends Generate{
                     generatedEngimon.set_posisi(fixPosition);
                 }
             }
+            if (generatedEngimon.get_species().equals("Dragon")){
+                generatedEngimon.setImage("/assets/dragon.png");
+            }else if (generatedEngimon.get_species().equals("Cat")){
+                generatedEngimon.setImage("/assets/cat.png");
+            }else if (generatedEngimon.get_species().equals("Bird")){
+                generatedEngimon.setImage("/assets/engi5-depan.png");
+            }else if (generatedEngimon.get_species().equals("Fish")){
+                generatedEngimon.setImage("/assets/fish.png");
+            }else if (generatedEngimon.get_species().equals("Octopus")){
+                generatedEngimon.setImage("/assets/octopus.png");
+            }else if (generatedEngimon.get_species().equals("Plant")){
+                generatedEngimon.setImage("/assets/engi6-depan.png");
+            }else if (generatedEngimon.get_species().equals("Worm")){
+                generatedEngimon.setImage("/assets/worm.png");
+            }else if (generatedEngimon.get_species().equals("Tiger")){
+                generatedEngimon.setImage("/assets/tiger.png");
+            }
             listOfWildEngimon.add(generatedEngimon);
         }
     }

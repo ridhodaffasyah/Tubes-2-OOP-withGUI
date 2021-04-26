@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -24,9 +25,9 @@ import java.util.Objects;
 import java.util.Vector;
 
 public class Main extends Application {
-    static private Vector<Engimon> ListOfGeneratedEngimon = new Vector<>();
-    static Player P = new Player();
-    static Command cmd = new Command();
+    private Vector<Engimon> ListOfGeneratedEngimon = new Vector<>();
+    private Player P = new Player();
+    private Command cmd = new Command();
 
     Button button;
     Button button2;
@@ -34,9 +35,45 @@ public class Main extends Application {
     Button button4;
     Button button5;
 
-    public static void walk(String direction){
-        cmd.inputCommand(direction);
-        cmd.executeCommand(ListOfGeneratedEngimon,P);
+    Scene first,second,third,scene,battle;
+    Pane root,rootStart,rootBattle,rootStarter,rootStory;
+
+    private void battle(Engimon engi1, Engimon engi2, Stage primaryStage){
+        //Interactive Battle
+        ToolBar containerButton = new ToolBar();
+        containerButton.setLayoutX(197);containerButton.setLayoutY(299);
+        Button switchEngi = new Button("Switch Engimon");
+        Button goBattle = new Button("Battle");
+        Button run = new Button("Run");
+        containerButton.getItems().addAll(switchEngi,goBattle,run);
+        rootBattle.getChildren().add(containerButton);
+
+        //UI
+        ImageView containerPicEngi1 = new ImageView();containerPicEngi1.setLayoutX(84);containerPicEngi1.setLayoutY(71);
+        containerPicEngi1.setFitHeight(150);containerPicEngi1.setFitWidth(111);
+        ImageView containerPicEngi2 = new ImageView();containerPicEngi2.setLayoutX(418);containerPicEngi2.setLayoutY(71);
+        containerPicEngi2.setFitHeight(150);containerPicEngi2.setFitWidth(111);
+
+        Image picEngi1 = P.getActiveEngimon().getImage();containerPicEngi1.setImage(picEngi1);
+        Image picEngi2 = engi2.getImage();containerPicEngi2.setImage(picEngi2);
+
+        Text namaEngi1 = new Text(82,276,engi1.get_name() +" Lvl: "+ engi1.get_level());namaEngi1.setFont(Font.font("Arial",20));
+        Text namaEngi2 = new Text(413,276,engi2.get_species() +" Lvl: "+ engi2.get_level());namaEngi2.setFont(Font.font("Arial",20));
+
+        Text interactiveMsg = new Text(221,43,"DEFAULT");
+        interactiveMsg.setFont(Font.font("Arial",15));
+
+        rootBattle.getChildren().addAll(containerPicEngi1,containerPicEngi2,namaEngi1,namaEngi2);
+
+        goBattle.setOnAction(actionEvent -> {
+            cmd.battleBetween(engi2,P,ListOfGeneratedEngimon,interactiveMsg);
+            rootBattle.getChildren().add(interactiveMsg);
+        });
+
+        run.setOnAction(actionEvent -> {
+            primaryStage.setScene(scene);
+            rootBattle.getChildren().removeAll(containerPicEngi1,containerPicEngi2,namaEngi1,namaEngi2,interactiveMsg);
+        });
     }
 
     @Override
@@ -46,10 +83,10 @@ public class Main extends Application {
         soundMyNoise.play();
 
         //PANE FOR START MENU
-        Pane rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
+        rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
-        Scene first = new Scene(rootStart, 1360, 768);
+        first = new Scene(rootStart, 1360, 768);
         primaryStage.setScene(first);
 
         Image image = new Image("/assets/mulai.png");
@@ -76,6 +113,13 @@ public class Main extends Application {
 
         rootStart.getChildren().addAll(button, button2);
 
+        //PANE FOR BATTLE
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("battle.fxml"));
+        rootBattle = loader.load();
+
+        battle = new Scene(rootBattle,600,340);
+
         //PANE FOR MAP
         Engimon starter = new Engimon();
         P.addEngimonPlayer(starter);
@@ -83,23 +127,31 @@ public class Main extends Application {
         P.setImage("/assets/chara.png");
         P.getActiveEngimon().setImage("/assets/pikachusprite.png");
 
-        Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-        primaryStage.setTitle("Engimon's World");
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("map.fxml")));
 
         Canvas canvas = new Canvas(1360,768);
         root.getChildren().add(canvas);
 
-        Scene scene = new Scene(root,1360,768);
+        scene = new Scene(root,1360,768);
 
         GraphicsContext gd = canvas.getGraphicsContext2D();
         P.render(gd);
         starter.render(gd);
 
-        //MOVEMENT PLAYER
+            //MOVEMENT PLAYER and Wild Engimon
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
+                // Reset gambar setiap waktu
                 gd.clearRect(0,0,1360,768);
+
+                // Generate Wild Engimon
+                try {
+                    GenerateEngimon.generateEngimon(ListOfGeneratedEngimon,P);
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+
                 if (keyEvent.getCode()==KeyCode.W){
                     cmd.inputCommand("left");
                     cmd.executeCommand(ListOfGeneratedEngimon,P);
@@ -112,18 +164,32 @@ public class Main extends Application {
                 }else if (keyEvent.getCode()==KeyCode.D){
                     cmd.inputCommand("down");
                     cmd.executeCommand(ListOfGeneratedEngimon,P);
+                }else if (keyEvent.getCode()==KeyCode.B){
+//                    cmd.inputCommand("battle");
+//                    cmd.executeCommand(ListOfGeneratedEngimon,P);
+                    try{
+                        Engimon engi2 = cmd.findWildEngi(ListOfGeneratedEngimon,P);
+                        battle(P.getActiveEngimon(),engi2,primaryStage);
+                        primaryStage.setScene(battle);
+                    }catch(Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
+
+                Peta.movingWildEngimon(ListOfGeneratedEngimon,P);
+
                 P.render(gd);
                 P.getActiveEngimon().render(gd);
+                for (Engimon E: ListOfGeneratedEngimon){
+                    E.render(gd);
+                }
             }
         });
 
         //PANE FOR STARTER PAGE
-        Pane rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starterengi.fxml")));
+        rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starterengi.fxml")));
 
-        primaryStage.setTitle("Engimon's World!");
-        Scene second = new Scene(rootStarter, 1360, 768);
-        primaryStage.setScene(second);
+        second = new Scene(rootStarter, 1360, 768);
 
         Image image3 = new Image("/assets/back1.png");
         ImageView imageView3 = new ImageView(image3);
@@ -148,11 +214,9 @@ public class Main extends Application {
         rootStarter.getChildren().addAll(button3, button4);
 
         //PANE FOR STORY PAGE
-        Pane rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("story.fxml")));
+        rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("story.fxml")));
 
-        primaryStage.setTitle("Engimon's World!");
-        Scene third = new Scene(rootStory, 1360, 768);
-        primaryStage.setScene(third);
+        third = new Scene(rootStory, 1360, 768);
 
         Image image5 = new Image("/assets/next1.png");
         ImageView imageView5 = new ImageView(image5);
