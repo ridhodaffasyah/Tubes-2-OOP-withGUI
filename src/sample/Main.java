@@ -80,10 +80,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         //ADD BACKSOUND START MENU
         AudioClip soundMyNoise = new AudioClip(new File("src/sound/together.mp3").toURI().toString());
-        soundMyNoise.play();
+        //soundMyNoise.play();
 
         //PANE FOR START MENU
-        rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
+        rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/startmenu.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
         first = new Scene(rootStart, 1360, 768);
@@ -115,7 +115,7 @@ public class Main extends Application {
 
         //PANE FOR BATTLE
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("battle.fxml"));
+        loader.setLocation(getClass().getResource("Template/battle.fxml"));
         rootBattle = loader.load();
 
         battle = new Scene(rootBattle,600,340);
@@ -127,7 +127,7 @@ public class Main extends Application {
         P.setImage("/assets/chara.png");
         P.getActiveEngimon().setImage("/assets/pikachusprite.png");
 
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("map.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/map.fxml")));
 
         Canvas canvas = new Canvas(1360,768);
         root.getChildren().add(canvas);
@@ -187,7 +187,7 @@ public class Main extends Application {
         });
 
         //PANE FOR STARTER PAGE
-        rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starterengi.fxml")));
+        rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/starterengi.fxml")));
 
         second = new Scene(rootStarter, 1360, 768);
 
@@ -214,7 +214,7 @@ public class Main extends Application {
         rootStarter.getChildren().addAll(button3, button4);
 
         //PANE FOR STORY PAGE
-        rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("story.fxml")));
+        rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/story.fxml")));
 
         third = new Scene(rootStory, 1360, 768);
 
@@ -225,10 +225,12 @@ public class Main extends Application {
         button5.setLayoutX(1055);
         button5.setLayoutY(650);
 
-        Text t = new Text(50, 500,"Welcome to Engimon's World! The World where Engimon is Scattered!\n\n" +
-                "Pika  : Ash! I want to save my friends! meow~ \n" +
-                "Ash   : Yes pika! Let's save your friend and make this world safe!\n" +
-                "Pika  : Pikaaaachu!");
+        Text t = new Text(50, 500, """
+                Welcome to Engimon's World! The World where Engimon is Scattered!
+
+                Pika  : Ash! I want to save my friends! meow~\s
+                Ash   : Yes pika! Let's save your friend and make this world safe!
+                Pika  : Pikaaaachu!""");
 
         t.setFill(Color.WHITE);
         t.setFont(Font.font("Arial", 25));
@@ -248,7 +250,7 @@ public class Main extends Application {
         //SWITCH TO MAP PAGE
         button5.setOnAction(actionEvent -> {
             primaryStage.setScene(scene);
-            soundMyNoise.stop();
+           // soundMyNoise.stop();
             AudioClip soundMyNoise3 = new AudioClip(new File("src/sound/skyarrow.mp3").toURI().toString());
             soundMyNoise3.setVolume(20);
             soundMyNoise3.play();
@@ -258,7 +260,6 @@ public class Main extends Application {
 
         //RUNNING STAGE
         primaryStage.setFullScreen(false);
-        primaryStage.setResizable(false);
         primaryStage.setScene(first);
         primaryStage.show();
 
