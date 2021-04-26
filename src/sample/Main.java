@@ -41,9 +41,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        AudioClip soundMyNoise = new AudioClip(new File("sound/together.mp3").toURI().toString());
+        //ADD BACKSOUND START MENU
+        AudioClip soundMyNoise = new AudioClip(new File("src/sound/together.mp3").toURI().toString());
         soundMyNoise.play();
 
+        //PANE FOR START MENU
         Pane rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
@@ -64,6 +66,7 @@ public class Main extends Application {
         button2.setLayoutX(520);
         button2.setLayoutY(620);
 
+        //EXIT PROGRAM WHEN CLICKED EXIT
         button2.setOnAction(actionEvent -> {
             Object node = actionEvent.getSource();
             System.out.println(node instanceof Button);
@@ -73,6 +76,7 @@ public class Main extends Application {
 
         rootStart.getChildren().addAll(button, button2);
 
+        //PANE FOR MAP
         Engimon starter = new Engimon();
         P.addEngimonPlayer(starter);
         P.setActiveEngimon(starter);
@@ -91,6 +95,7 @@ public class Main extends Application {
         P.render(gd);
         starter.render(gd);
 
+        //MOVEMENT PLAYER
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -113,6 +118,7 @@ public class Main extends Application {
             }
         });
 
+        //PANE FOR STARTER PAGE
         Pane rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starterengi.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
@@ -133,12 +139,15 @@ public class Main extends Application {
         button4.setLayoutX(1055);
         button4.setLayoutY(0);
 
+        //SWITCH TO STARTER PAGE
         button.setOnAction(actionEvent -> primaryStage.setScene(second));
 
+        //SWITCH TO START MENU PAGE
         button3.setOnAction(actionEvent -> primaryStage.setScene(first));
 
         rootStarter.getChildren().addAll(button3, button4);
 
+        //PANE FOR STORY PAGE
         Pane rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("story.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
@@ -160,8 +169,9 @@ public class Main extends Application {
         t.setFill(Color.WHITE);
         t.setFont(Font.font("Arial", 25));
 
+        //SWITCH TO STORY PAGE
         button4.setOnAction(actionEvent -> {
-            AudioClip soundMyNoise2 = new AudioClip(new File("sound/pikasound.wav").toURI().toString());
+            AudioClip soundMyNoise2 = new AudioClip(new File("src/sound/pikasound.wav").toURI().toString());
             soundMyNoise2.play();
             try {
                 Thread.sleep(1000);
@@ -171,16 +181,18 @@ public class Main extends Application {
             primaryStage.setScene(third);
         });
 
+        //SWITCH TO MAP PAGE
         button5.setOnAction(actionEvent -> {
             primaryStage.setScene(scene);
             soundMyNoise.stop();
-            AudioClip soundMyNoise3 = new AudioClip(new File("sound/skyarrow.mp3").toURI().toString());
+            AudioClip soundMyNoise3 = new AudioClip(new File("src/sound/skyarrow.mp3").toURI().toString());
             soundMyNoise3.setVolume(20);
             soundMyNoise3.play();
         });
 
         rootStory.getChildren().addAll(t, button5);
 
+        //RUNNING STAGE
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(false);
         primaryStage.setScene(first);
