@@ -88,7 +88,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         //ADD BACKSOUND START MENU
         AudioClip soundMyNoise = new AudioClip(new File("src/sound/together.mp3").toURI().toString());
-        soundMyNoise.play();
+        //soundMyNoise.play();
 
         //PANE FOR START MENU
         rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/startmenu.fxml")));
@@ -233,10 +233,12 @@ public class Main extends Application {
         button5.setLayoutX(1055);
         button5.setLayoutY(650);
 
-        Text t = new Text(50, 500,"Welcome to Engimon's World! The World where Engimon is Scattered!\n\n" +
-                "Pika  : Ash! I want to save my friends! meow~ \n" +
-                "Ash   : Yes pika! Let's save your friend and make this world safe!\n" +
-                "Pika  : Pikaaaachu!");
+        Text t = new Text(50, 500, """
+                Welcome to Engimon's World! The World where Engimon is Scattered!
+
+                Pika  : Ash! I want to save my friends! meow~\s
+                Ash   : Yes pika! Let's save your friend and make this world safe!
+                Pika  : Pikaaaachu!""");
 
         t.setFill(Color.WHITE);
         t.setFont(Font.font("Arial", 25));
@@ -256,7 +258,7 @@ public class Main extends Application {
         //SWITCH TO MAP PAGE
         button5.setOnAction(actionEvent -> {
             primaryStage.setScene(scene);
-            soundMyNoise.stop();
+           // soundMyNoise.stop();
             AudioClip soundMyNoise3 = new AudioClip(new File("src/sound/skyarrow.mp3").toURI().toString());
             soundMyNoise3.setVolume(20);
             soundMyNoise3.play();
@@ -276,7 +278,6 @@ public class Main extends Application {
 
         //RUNNING STAGE
         primaryStage.setFullScreen(false);
-        primaryStage.setResizable(false);
         primaryStage.setScene(first);
         primaryStage.show();
 
