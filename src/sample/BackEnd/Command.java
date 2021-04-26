@@ -163,7 +163,7 @@ public class Command {
         throw new CommandException("Tidak ada engimon liar di dekatmu!");
     }
     
-    public void battleBetween(Engimon eng2, Player currentPlayer, Vector<Engimon> listOfWildEngimon, Text outputText){
+    public void battleBetween(Engimon eng2, Player currentPlayer, Vector<Engimon> listOfWildEngimon, Text outputText1,Text outputText2, Text outputText3){
 
         Engimon eng1 = currentPlayer.getActiveEngimon();
 
@@ -175,13 +175,15 @@ public class Command {
         float totalPower1 = (float) (eng1.get_level() * eng1ElemenAdv) + eng1.get_sum_power();
         float totalPower2 = (float) (eng2.get_level() * eng2ElemenAdv) + eng2.get_sum_power();
 
-        System.out.println("Power Engi1: " + totalPower1);
-        System.out.println("Power Engi2: " + totalPower2);
+        outputText2.setText("Power:" + totalPower1);
+        outputText3.setText("Power:" + totalPower2);
+//        System.out.println("Power Engi1: " + totalPower1);
+//        System.out.println("Power Engi2: " + totalPower2);
 
         if ( totalPower1 < totalPower2){
             //decrement Life
             eng1.decLife();
-            outputText.setText(eng1.get_name() + " Telah Kalah! Sisa life engimonmu: " +eng1.get_life());
+            outputText1.setText(eng1.get_name() + " Telah Kalah! Sisa life engimonmu: " +eng1.get_life());
             
             //pengecekan apakah life 0 atau tidak
             if (eng1.get_life()==0){
@@ -218,8 +220,7 @@ public class Command {
             int diffPower = (int) (totalPower1-totalPower2);
             int alive = eng1.incExp(diffPower*10);
 
-            outputText.setText(eng1.get_name() + " Telah Menang! \nMendapatkan " + diffPower*10 + "Exp");
-
+            outputText1.setText(eng1.get_name() + " Telah Menang! \nMendapatkan " + diffPower*10 + "Exp");
             if (alive==1){
                 System.out.println("\nEngimon anda telah mencapai level 50 dan akan mati!");
                 currentPlayer.deleteEngimonPlayer(eng1);
@@ -228,9 +229,8 @@ public class Command {
             //drop item
             try {
                 Skill dropSkill = currentPlayer.checkOwned(eng2.getEngiSkill().get(0));
-                System.out.print("Item Drop!\n");
-                System.out.println("Nama: " + dropSkill.getNamaSkill());
                 currentPlayer.skillInventory.addThing(dropSkill);
+                outputText1.setText(eng1.get_name() + " Telah Menang! \nMendapatkan " + diffPower*10 + "Exp \nMendapatkan Skill Item: " + dropSkill.getNamaSkill());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

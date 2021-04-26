@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -35,8 +36,12 @@ public class Main extends Application {
     Button button4;
     Button button5;
 
-    Scene first,second,third,scene,battle;
-    Pane root,rootStart,rootBattle,rootStarter,rootStory;
+    Scene first,second,third,scene,battle,invecntorySkill;
+    Pane root,rootStart,rootBattle,rootStarter,rootStory,rootSkill;
+
+    private void inventorySkill(Stage primaryStage){
+
+    }
 
     private void battle(Engimon engi1, Engimon engi2, Stage primaryStage){
         //Interactive Battle
@@ -60,14 +65,17 @@ public class Main extends Application {
         Text namaEngi1 = new Text(82,276,engi1.get_name() +" Lvl: "+ engi1.get_level());namaEngi1.setFont(Font.font("Arial",20));
         Text namaEngi2 = new Text(413,276,engi2.get_species() +" Lvl: "+ engi2.get_level());namaEngi2.setFont(Font.font("Arial",20));
 
-        Text interactiveMsg = new Text(221,43,"DEFAULT");
-        interactiveMsg.setFont(Font.font("Arial",15));
+        Text powerEngi1 = new Text(85,50,"DEFAULT");powerEngi1.setFill(Color.WHITE);powerEngi1.setFont(Font.font("Arial",18));
+        Text powerEngi2 = new Text(416,50,"DEFAULT");powerEngi2.setFill(Color.WHITE);powerEngi2.setFont(Font.font("Arial",18));
+
+        Text interactiveMsg = new Text(221,32,"DEFAULT");
+        interactiveMsg.setFont(Font.font("Arial",12));
 
         rootBattle.getChildren().addAll(containerPicEngi1,containerPicEngi2,namaEngi1,namaEngi2);
 
         goBattle.setOnAction(actionEvent -> {
-            cmd.battleBetween(engi2,P,ListOfGeneratedEngimon,interactiveMsg);
-            rootBattle.getChildren().add(interactiveMsg);
+            cmd.battleBetween(engi2,P,ListOfGeneratedEngimon,interactiveMsg,powerEngi1,powerEngi2);
+            rootBattle.getChildren().addAll(interactiveMsg,powerEngi1,powerEngi2);
         });
 
         run.setOnAction(actionEvent -> {
@@ -83,7 +91,7 @@ public class Main extends Application {
         soundMyNoise.play();
 
         //PANE FOR START MENU
-        rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
+        rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/startmenu.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
         first = new Scene(rootStart, 1360, 768);
@@ -115,7 +123,7 @@ public class Main extends Application {
 
         //PANE FOR BATTLE
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("battle.fxml"));
+        loader.setLocation(getClass().getResource("Template/battle.fxml"));
         rootBattle = loader.load();
 
         battle = new Scene(rootBattle,600,340);
@@ -127,7 +135,7 @@ public class Main extends Application {
         P.setImage("/assets/chara.png");
         P.getActiveEngimon().setImage("/assets/pikachusprite.png");
 
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("map.fxml")));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/map.fxml")));
 
         Canvas canvas = new Canvas(1360,768);
         root.getChildren().add(canvas);
@@ -164,9 +172,9 @@ public class Main extends Application {
                 }else if (keyEvent.getCode()==KeyCode.D){
                     cmd.inputCommand("down");
                     cmd.executeCommand(ListOfGeneratedEngimon,P);
+                }else if (keyEvent.getCode()==KeyCode.I){
+                    primaryStage.setScene(invecntorySkill);
                 }else if (keyEvent.getCode()==KeyCode.B){
-//                    cmd.inputCommand("battle");
-//                    cmd.executeCommand(ListOfGeneratedEngimon,P);
                     try{
                         Engimon engi2 = cmd.findWildEngi(ListOfGeneratedEngimon,P);
                         battle(P.getActiveEngimon(),engi2,primaryStage);
@@ -187,7 +195,7 @@ public class Main extends Application {
         });
 
         //PANE FOR STARTER PAGE
-        rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starterengi.fxml")));
+        rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/starterengi.fxml")));
 
         second = new Scene(rootStarter, 1360, 768);
 
@@ -214,7 +222,7 @@ public class Main extends Application {
         rootStarter.getChildren().addAll(button3, button4);
 
         //PANE FOR STORY PAGE
-        rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("story.fxml")));
+        rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/story.fxml")));
 
         third = new Scene(rootStory, 1360, 768);
 
@@ -255,6 +263,16 @@ public class Main extends Application {
         });
 
         rootStory.getChildren().addAll(t, button5);
+
+        //INVENTORY SKILL PANE
+        rootSkill =  FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/inventoryskill.fxml")));
+        invecntorySkill = new Scene(rootSkill,1360,768);
+
+        ScrollPane containerSkill = new ScrollPane();
+        containerSkill.setLayoutX(228);containerSkill.setLayoutY(159);
+        containerSkill.setPrefSize(917,489);
+
+        rootSkill.getChildren().add(containerSkill);
 
         //RUNNING STAGE
         primaryStage.setFullScreen(false);
