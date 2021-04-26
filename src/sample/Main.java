@@ -1,15 +1,16 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import sample.BackEnd.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +19,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -40,7 +40,78 @@ public class Main extends Application {
     Pane root,rootStart,rootBattle,rootStarter,rootStory,rootSkill;
 
     private void inventorySkill(Stage primaryStage){
+        //container semua skill
+        GridPane gp = new GridPane();
+        gp.setPrefSize(884,455);
+        gp.setLayoutX(410);gp.setLayoutY(160);
+        gp.setGridLinesVisible(true);
 
+        int i=0;
+        for (Skill S: P.getSkillInventory().getThings().keySet()){
+            String pathImage = "/assets/Skill/"+S.getNamaSkill()+".png";
+            S.setImage(pathImage);
+
+            ImageView iconSkill = new ImageView(S.getImage());
+            iconSkill.setFitWidth(100);iconSkill.setFitHeight(100);
+
+            gp.add(iconSkill,0,i);
+            gp.add(new Text("       "+S.getNamaSkill()+"       "),1,i);
+            gp.add(new Text("       Element: "+S.getUnique()+"       "),2,i);
+            gp.add(new Text("       Base Power: "+S.getBasePower()+"       "),3,i);
+            gp.add(new Text("       Qty: "+P.getSkillInventory().getThings().get(S).toString()+"       "),4,i);
+
+            Button useSkill = new Button("use");
+            gp.add(useSkill,5,i);
+
+            TextField entryID = new TextField();
+            Popup chooseEngi = new Popup();
+            chooseEngi.getContent().add(entryID);
+
+            EventHandler<ActionEvent> event =
+                    new EventHandler<ActionEvent>() {
+
+                        public void handle(ActionEvent e) {
+                            if (!chooseEngi.isShowing()){
+                                chooseEngi.show(primaryStage);
+                            }else {
+                                int idEngimon = Integer.parseInt(entryID.getText());
+                                try{
+                                    Engimon wantTobeLearned = P.findEngimon(idEngimon);
+                                    Text succesOrNot = new Text("DEFAULT");
+
+                                    if (P.learnSkillTo(wantTobeLearned,S)){
+                                        succesOrNot.setText(("BERHASIL"));
+                                        succesOrNot.setFill(Color.GREEN);succesOrNot.setFont(Font.font(20));
+                                    }else{
+                                        succesOrNot.setText("GAGAL");
+                                        succesOrNot.setFill(Color.RED);succesOrNot.setFont(Font.font(20));
+                                    }
+                                    succesOrNot.setLayoutX(900);succesOrNot.setLayoutY(650);
+                                    rootSkill.getChildren().add(succesOrNot);
+                                    primaryStage.setScene(invecntorySkill);
+
+                                }catch(Exception err){
+                                    System.out.println(err.getMessage());
+                                }
+                                chooseEngi.hide();
+                            }
+                        }
+                    };
+
+            useSkill.setOnAction(event);
+            i++;
+        }
+        rootSkill.getChildren().add(gp);
+
+        invecntorySkill.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    rootSkill.getChildren().remove(gp);
+                    primaryStage.setScene(scene);
+                }
+            }
+        });
     }
 
     private void battle(Engimon engi1, Engimon engi2, Stage primaryStage){
@@ -80,7 +151,7 @@ public class Main extends Application {
 
         run.setOnAction(actionEvent -> {
             primaryStage.setScene(scene);
-            rootBattle.getChildren().removeAll(containerPicEngi1,containerPicEngi2,namaEngi1,namaEngi2,interactiveMsg);
+            rootBattle.getChildren().removeAll(containerPicEngi1,containerPicEngi2,namaEngi1,namaEngi2,interactiveMsg,powerEngi1,powerEngi2);
         });
     }
 
@@ -173,6 +244,7 @@ public class Main extends Application {
                     cmd.inputCommand("down");
                     cmd.executeCommand(ListOfGeneratedEngimon,P);
                 }else if (keyEvent.getCode()==KeyCode.I){
+                    inventorySkill(primaryStage);
                     primaryStage.setScene(invecntorySkill);
                 }else if (keyEvent.getCode()==KeyCode.B){
                     try{
@@ -269,12 +341,6 @@ public class Main extends Application {
         //INVENTORY SKILL PANE
         rootSkill =  FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/inventoryskill.fxml")));
         invecntorySkill = new Scene(rootSkill,1360,768);
-
-        ScrollPane containerSkill = new ScrollPane();
-        containerSkill.setLayoutX(228);containerSkill.setLayoutY(159);
-        containerSkill.setPrefSize(917,489);
-
-        rootSkill.getChildren().add(containerSkill);
 
         //RUNNING STAGE
         primaryStage.setFullScreen(false);

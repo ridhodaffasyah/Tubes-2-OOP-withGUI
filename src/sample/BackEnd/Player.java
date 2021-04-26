@@ -121,34 +121,20 @@ public class Player extends Sprite {
     
     //vii. Menggunakan skill item pada suatu engimon
 
-    public void learnSkillTo(Engimon E, Skill S){
+    public boolean learnSkillTo(Engimon E, Skill S){
         if (checkCompatibility(E, S)){
-            E.displayEngiInfo();
-            boolean sama = false;
-            while(!sama){
-                System.out.print("\nMasukkan nama skill Engimon yang ingin anda replace: ");
-                Scanner remove = new Scanner(System.in);
-                String skillRemoved = remove.nextLine();
-                //replace skill
-                for (int i=0;i<4;i++){
-                    if (E.getEngiSkill().get(i).getNamaSkill().equals(skillRemoved)){
-                        E.getEngiSkill().remove(i);
-                        E.getEngiSkill().add(new EngimonSkill(S));
-                        sama= true;
-                        try {       //hapus skill yang telah dipakai
-                            getSkillInventory().deleteThing(S);
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                }
-                if (!sama){
-                    System.out.println("Oops, masukan anda salah. Ulangi.\n");
-                }
+            E.getEngiSkill().remove(0);
+            E.getEngiSkill().add(new EngimonSkill(S));
+
+            try {       //hapus skill yang telah dipakai
+                getSkillInventory().deleteThing(S);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
-            System.out.println("Skill berhasil di-replace!\n\n");
+            return true;
         }else{
             System.out.println("Element engimon dengan element skill tidak compatible!");
+            return  false;
         }
     }
 

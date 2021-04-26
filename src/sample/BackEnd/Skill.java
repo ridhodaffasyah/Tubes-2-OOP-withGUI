@@ -1,7 +1,10 @@
 package sample.BackEnd;
 
 
-public class Skill implements Comparable<Skill>{
+import javafx.scene.canvas.GraphicsContext;
+import sample.Sprite;
+
+public class Skill extends Sprite implements Comparable<Skill>{
     protected String namaSkill;
     protected String unique;
     protected int basePower;
@@ -11,6 +14,7 @@ public class Skill implements Comparable<Skill>{
         this.unique = "XXX";
         this.basePower = 0;
     }
+
     public Skill(String namaSkill, String unique, int basePower){
         this.namaSkill = namaSkill;
         this.unique = unique;
@@ -39,6 +43,7 @@ public class Skill implements Comparable<Skill>{
     public void setBasePower(int basePower){
         this.basePower = basePower;
     }
+
     @Override
     public int compareTo(Skill o) {
         if (this.getBasePower()>o.getBasePower()){
@@ -48,5 +53,10 @@ public class Skill implements Comparable<Skill>{
         }else{
             return -1;
         }
+    }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        gc.drawImage(image,32,32);
     }
 }

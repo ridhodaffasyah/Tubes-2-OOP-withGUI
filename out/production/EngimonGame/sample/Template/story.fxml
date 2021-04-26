@@ -3,12 +3,11 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<<<<<<< HEAD:out/production/EngimonGame/sample/Template/story.fxml
-<AnchorPane prefHeight="768.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Story">
-=======
 
-<AnchorPane prefHeight="768.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
->>>>>>> 09c53e8d2c647da02bac7d6e79cbeef6bb249fbb:out/production/EngimonGame/sample/story.fxml
+<AnchorPane prefHeight="768.0" prefWidth="1360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Story">
+
+
+
    <children>
       <ImageView fitHeight="768.0" fitWidth="1360.0" pickOnBounds="true">
          <image>
@@ -17,20 +16,12 @@
       </ImageView>
       <ImageView fitHeight="300.0" fitWidth="500.0" layoutX="600.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true">
          <image>
-<<<<<<< HEAD:out/production/EngimonGame/sample/Template/story.fxml
             <Image url="@../../assets/ash.png" />
-=======
-            <Image url="@../../assets/kota.png" />
->>>>>>> 09c53e8d2c647da02bac7d6e79cbeef6bb249fbb:out/production/EngimonGame/sample/story.fxml
          </image>
       </ImageView>
       <ImageView fitHeight="300.0" fitWidth="500.0" layoutX="43.0" layoutY="70.0" pickOnBounds="true">
          <image>
-<<<<<<< HEAD:out/production/EngimonGame/sample/Template/story.fxml
             <Image url="@../../assets/kota.png" />
-=======
-            <Image url="@../../assets/ash.png" />
->>>>>>> 09c53e8d2c647da02bac7d6e79cbeef6bb249fbb:out/production/EngimonGame/sample/story.fxml
          </image>
       </ImageView>
       <ImageView fitHeight="200.0" fitWidth="400.0" layoutX="925.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">

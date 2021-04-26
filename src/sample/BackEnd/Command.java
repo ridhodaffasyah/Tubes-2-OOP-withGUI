@@ -183,23 +183,23 @@ public class Command {
         if ( totalPower1 < totalPower2){
             //decrement Life
             eng1.decLife();
-            outputText1.setText(eng1.get_name() + " Telah Kalah! Sisa life engimonmu: " +eng1.get_life());
+            outputText1.setText(eng1.get_name() + " Telah Kalah! \nSisa life engimonmu: " +eng1.get_life());
             
             //pengecekan apakah life 0 atau tidak
             if (eng1.get_life()==0){
                 currentPlayer.deleteEngimonPlayer(eng1);
             }else{
-                System.out.print("\nIngin mengganti active engimon? (y/n)");
-                Scanner scan = new Scanner(System.in);
-                String confirm = scan.nextLine();
-                while (!confirm.equals("y") && !confirm.equals("n")){
-                    System.out.println("Error input!\n");
-                    System.out.print("\nIngin mengganti active engimon? (y/n)");
-                    confirm = scan.nextLine();
-                }
-                if (confirm.equals("y")){
-                    currentPlayer.switchActiveEngimon();
-                }
+//                System.out.print("\nIngin mengganti active engimon? (y/n)");
+//                Scanner scan = new Scanner(System.in);
+//                String confirm = scan.nextLine();
+//                while (!confirm.equals("y") && !confirm.equals("n")){
+//                    System.out.println("Error input!\n");
+//                    System.out.print("\nIngin mengganti active engimon? (y/n)");
+//                    confirm = scan.nextLine();
+//                }
+//                if (confirm.equals("y")){
+//                    currentPlayer.switchActiveEngimon();
+//                }
             }
 
 //            // pengecekan apakah ingin battle lagi atau tidak
