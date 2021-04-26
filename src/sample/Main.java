@@ -1,15 +1,18 @@
 package sample;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import sample.BackEnd.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -30,17 +33,72 @@ public class Main extends Application {
     private Player P = new Player();
     private Command cmd = new Command();
 
-    Button button;
-    Button button2;
-    Button button3;
-    Button button4;
-    Button button5;
+    AudioClip soundMyNoise;
+    AudioClip soundMyNoise2;
+    AudioClip soundMyNoise3;
 
-    Scene first,second,third,scene,battle,invecntorySkill;
-    Pane root,rootStart,rootBattle,rootStarter,rootStory,rootSkill;
+    Button button,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12,button13,button14,button15,button16,button17;
+    Scene first,second,third,scene,battle,menu,settings,engi;
+    Pane root,rootStart,rootBattle,rootStarter,rootStory,rootMenu,rootSettings,rootEngi;
 
-    private void inventorySkill(Stage primaryStage){
+    private void InventoryEngi(Stage primaryStage){
+        GridPane gp = new GridPane();
 
+        int count = 0;
+        for (Engimon e: P.getEngiInventory().getThings().keySet()){
+            ImageView e1 = new ImageView(e.getImage());
+            e1.setFitWidth(120);
+            e1.setFitHeight(100);
+            Popup popup = new Popup();
+            popup.setX(200);
+            popup.setY(200);
+
+            GridPane gd2 = new GridPane();
+            ScrollPane sp2 = new ScrollPane();
+
+            Text engiID = new Text("Id : " + e.get_id() + "\n");
+            Text engiName = new Text("Name : " + e.get_name() + "\n");
+            Text engiParent = new Text("Parents Name : " + e.get_parentsName() + "\n");
+            Text engiLife = new Text("Life : " + e.get_life() + "\n");
+            Text engiSpecies = new Text("Species : " + e.get_species() + "\n");
+            Text engiElements = new Text("Elements : " + e.get_elements() + "\n");
+            Text engiLevel = new Text("Level : " + e.get_level() + "\n");
+            Text engiPosisi = new Text("Posisi : " + "(" + e.get_posisi().getX() + ", " + e.get_posisi().getY() + ")" + "\n");
+            Text engiSkill = new Text("Skill : " + "\n");
+
+            gd2.add(engiID,0,0);
+            gd2.add(engiName,0,1);
+            gd2.add(engiParent,0,2);
+            gd2.add(engiLife,0,3);
+            gd2.add(engiSpecies,0,4);
+            gd2.add(engiElements,0,5);
+            gd2.add(engiLevel,0,6);
+            gd2.add(engiPosisi,0,7);
+            gd2.add(engiSkill,0,8);
+
+            for (int i = 0 ; i < e.getEngiSkill().size(); i++) {
+                Text iterateSkill = new Text(i + 1 + ". " + e.getEngiSkill().get(i).getNamaSkill() + ", Base Power : " + e.getEngiSkill().get(i).getBasePower() + "\n");
+                gd2.add(iterateSkill, 0, 9+i);
+            }
+
+            sp2.setContent(gd2);
+            popup.getContent().addAll(sp2);
+
+            button17 = new Button("", e1);
+            button17.setOnAction(actionEvent -> {
+                popup.show(primaryStage);
+            });
+            gp.add(button17,count, 0);
+            count = count + 1;
+        }
+
+        ScrollPane sp = new ScrollPane();
+        sp.setPrefSize(1000,500);
+        sp.setLayoutX(120);
+        sp.setLayoutY(150);
+        sp.setContent(gp);
+
+        rootEngi.getChildren().add(sp);
     }
 
     private void battle(Engimon engi1, Engimon engi2, Stage primaryStage){
@@ -87,8 +145,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         //ADD BACKSOUND START MENU
-        AudioClip soundMyNoise = new AudioClip(new File("src/sound/together.mp3").toURI().toString());
-        //soundMyNoise.play();
+        soundMyNoise = new AudioClip(new File("src/sound/together.mp3").toURI().toString());
+        soundMyNoise.play();
 
         //PANE FOR START MENU
         rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/startmenu.fxml")));
@@ -173,7 +231,7 @@ public class Main extends Application {
                     cmd.inputCommand("down");
                     cmd.executeCommand(ListOfGeneratedEngimon,P);
                 }else if (keyEvent.getCode()==KeyCode.I){
-                    primaryStage.setScene(invecntorySkill);
+                    //primaryStage.setScene(invecntorySkill);
                 }else if (keyEvent.getCode()==KeyCode.B){
                     try{
                         Engimon engi2 = cmd.findWildEngi(ListOfGeneratedEngimon,P);
@@ -193,6 +251,159 @@ public class Main extends Application {
                 }
             }
         });
+        //PANE FOR MENU
+
+        rootMenu = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/showallengi.fxml")));
+
+        menu = new Scene(rootMenu, 1360, 768);
+
+        Image image6 = new Image("/assets/x.png");
+        ImageView imageView6 = new ImageView(image6);
+        imageView6.setFitHeight(50);
+        imageView6.setFitWidth(50);
+
+        button6 = new Button("", imageView6);
+        button6.setMaxHeight(50);
+        button6.setMaxWidth(50);
+
+        button6.setOnAction(actionEvent -> primaryStage.setScene(scene));
+
+        Text b7 = new Text("Inventory of Engimon");
+        b7.setFont(Font.font("Arial Black", 12));
+        button7 =  new Button("",b7);
+        Insets i = new Insets(10,30,10,30);
+        button7.setPadding(i);
+        button7.setLayoutX(580);
+        button7.setLayoutY(260);
+
+        button7.setOnAction(actionEvent -> {
+            primaryStage.setScene(engi);
+            InventoryEngi(primaryStage);
+        });
+
+        Text b8 = new Text("Inventory of Skill");
+        b8.setFont(Font.font("Arial Black", 12));
+        button8 =  new Button("",b8);
+        Insets i2 = new Insets(10,43,10,43);
+        button8.setPadding(i2);
+        button8.setLayoutX(580);
+        button8.setLayoutY(340);
+
+        Text b9 = new Text("Settings");
+        b9.setFont(Font.font("Arial Black", 12));
+        button9 =  new Button("",b9);
+        Insets i3 = new Insets(10,72,10,72);
+        button9.setPadding(i3);
+        button9.setLayoutX(580);
+        button9.setLayoutY(420);
+
+        button9.setOnAction(actionEvent -> primaryStage.setScene(settings));
+
+        Text b10 = new Text("Back to Start Menu");
+        b10.setFont(Font.font("Arial Black", 12));
+        button10 =  new Button("",b10);
+        Insets i4 = new Insets(10,37,10,37);
+        button10.setPadding(i4);
+        button10.setLayoutX(580);
+        button10.setLayoutY(500);
+
+        button10.setOnAction(actionEvent -> {
+            primaryStage.setScene(first);
+            soundMyNoise3.stop();
+            soundMyNoise.play();
+        });
+
+        Text gameMenu = new Text(500,100, "Game Menu");
+        gameMenu.setFont(Font.font("Polya", 60));
+
+        rootMenu.getChildren().addAll(gameMenu,button6, button7, button8, button9, button10);
+
+        //PANE FOR SETTINGS MENU
+
+        rootSettings = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/settings.fxml")));
+
+        settings = new Scene(rootSettings, 1360, 768);
+
+        Text gameSettings = new Text(560,100, "Settings");
+        gameSettings.setFont(Font.font("Polya", 60));
+
+        Image image7 = new Image("/src/assets/back.png");
+        ImageView imageView7 = new ImageView(image7);
+        imageView7.setFitHeight(50);
+        imageView7.setFitWidth(50);
+
+        button11 = new Button("", imageView7);
+        button11.setMaxHeight(50);
+        button11.setMaxWidth(50);
+
+        button11.setOnAction(actionEvent -> primaryStage.setScene(menu));
+
+        Text b12 = new Text("Turn On Music");
+        b12.setFont(Font.font("Arial Black", 12));
+        button12 =  new Button("",b12);
+        Insets i5 = new Insets(10,45,10,45);
+        button12.setPadding(i5);
+        button12.setLayoutX(580);
+        button12.setLayoutY(260);
+
+        button12.setOnAction(actionEvent -> {
+            if (!soundMyNoise3.isPlaying()){
+                soundMyNoise3.play();
+            }
+        });
+
+        Text b13 = new Text("Turn Off Music");
+        b13.setFont(Font.font("Arial Black", 12));
+        button13 =  new Button("",b13);
+        Insets i6 = new Insets(10,45,10,45);
+        button13.setPadding(i5);
+        button13.setLayoutX(580);
+        button13.setLayoutY(340);
+
+        button13.setOnAction(actionEvent -> {
+            soundMyNoise3.stop();
+        });
+
+        Text b14 = new Text("Set to Fullscreen");
+        b14.setFont(Font.font("Arial Black", 12));
+        button14 =  new Button("",b14);
+        Insets i7 = new Insets(10,38,10,38);
+        button14.setPadding(i7);
+        button14.setLayoutX(580);
+        button14.setLayoutY(420);
+
+        button14.setOnAction(actionEvent -> primaryStage.setFullScreen(true));
+
+        rootSettings.getChildren().addAll(gameSettings, button11, button12, button13, button14);
+
+        //PANE FOR INVENTORY ENGI
+        rootEngi = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/inventoryengi.fxml")));
+
+        engi = new Scene(rootEngi, 1360, 768);
+
+        Text gameInvenEngi = new Text(100,100, "Inventory Engimon");
+        gameInvenEngi.setFont(Font.font("Polya", 60));
+
+        Image image8 = new Image("/assets/back.png");
+        ImageView imageView8 = new ImageView(image8);
+        imageView8.setFitHeight(50);
+        imageView8.setFitWidth(50);
+
+        button15 = new Button("", imageView8);
+        button15.setMaxHeight(50);
+        button15.setMaxWidth(50);
+
+        button15.setOnAction(actionEvent -> primaryStage.setScene(menu));
+
+        Text b16 = new Text("Breeding");
+        b16.setFont(Font.font("Arial Black", 12));
+        button16 =  new Button("",b16);
+        Insets i8 = new Insets(10,38,10,38);
+        button16.setPadding(i8);
+        button16.setLayoutX(700);
+        button16.setLayoutY(50);
+
+        rootEngi.getChildren().addAll(gameInvenEngi, button15,button16);
 
         //PANE FOR STARTER PAGE
         rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/starterengi.fxml")));
@@ -234,7 +445,8 @@ public class Main extends Application {
         button5.setLayoutY(650);
 
         Text t = new Text(50, 500, """
-                Welcome to Engimon's World! The World where Engimon is Scattered!
+                Welcome to Engimon's World! 
+                The World where Engimon is Scattered!
 
                 Pika  : Ash! I want to save my friends! meow~\s
                 Ash   : Yes pika! Let's save your friend and make this world safe!
@@ -245,7 +457,7 @@ public class Main extends Application {
 
         //SWITCH TO STORY PAGE
         button4.setOnAction(actionEvent -> {
-            AudioClip soundMyNoise2 = new AudioClip(new File("src/sound/pikasound.wav").toURI().toString());
+            soundMyNoise2 = new AudioClip(new File("src/sound/pikasound.wav").toURI().toString());
             soundMyNoise2.play();
             try {
                 Thread.sleep(1000);
@@ -258,23 +470,23 @@ public class Main extends Application {
         //SWITCH TO MAP PAGE
         button5.setOnAction(actionEvent -> {
             primaryStage.setScene(scene);
-           // soundMyNoise.stop();
-            AudioClip soundMyNoise3 = new AudioClip(new File("src/sound/skyarrow.mp3").toURI().toString());
+            soundMyNoise.stop();
+            soundMyNoise3 = new AudioClip(new File("src/sound/skyarrow.mp3").toURI().toString());
             soundMyNoise3.setVolume(20);
             soundMyNoise3.play();
         });
 
         rootStory.getChildren().addAll(t, button5);
 
-        //INVENTORY SKILL PANE
-        rootSkill =  FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/inventoryskill.fxml")));
-        invecntorySkill = new Scene(rootSkill,1360,768);
-
-        ScrollPane containerSkill = new ScrollPane();
-        containerSkill.setLayoutX(228);containerSkill.setLayoutY(159);
-        containerSkill.setPrefSize(917,489);
-
-        rootSkill.getChildren().add(containerSkill);
+//        //INVENTORY SKILL PANE
+//        rootSkill =  FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Template/inventoryskill.fxml")));
+//        invecntorySkill = new Scene(rootSkill,1360,768);
+//
+//        ScrollPane containerSkill = new ScrollPane();
+//        containerSkill.setLayoutX(228);containerSkill.setLayoutY(159);
+//        containerSkill.setPrefSize(917,489);
+//
+//        rootSkill.getChildren().add(containerSkill);
 
         //RUNNING STAGE
         primaryStage.setFullScreen(false);
