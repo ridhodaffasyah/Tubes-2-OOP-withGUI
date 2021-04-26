@@ -77,7 +77,7 @@ public class Main extends Application {
         P.addEngimonPlayer(starter);
         P.setActiveEngimon(starter);
         P.setImage("/assets/chara.png");
-        P.getActiveEngimon().setImage("/assets/engi1-kanan.png");
+        P.getActiveEngimon().setImage("/assets/pikachusprite.png");
 
         Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
         primaryStage.setTitle("Engimon's World");
