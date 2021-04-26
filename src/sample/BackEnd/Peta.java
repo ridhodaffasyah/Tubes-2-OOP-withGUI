@@ -8,12 +8,12 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 
-public class Peta {
+public class Peta implements Runnable {
     public Vector<Vector<Cell>> peta = new Vector<Vector<Cell>>();
     public Vector<String> defaultMap = new Vector<String>();
 
-    public Peta(){
-        try{
+    public Peta() {
+        try {
 //            Path currentRelativePath = Paths.get("");
 //            String s = currentRelativePath.toAbsolutePath().toString();
 //            System.out.println("Current relative path is: " + s);
@@ -38,6 +38,14 @@ public class Peta {
             scanFile.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void run() {
+        while (true) {
+            //
+            try { Thread.sleep(2000); }
+            catch (Exception e) { }
         }
     }
 

@@ -320,6 +320,7 @@ public class Player extends Sprite {
     public void addEngimonPlayer(Engimon engi){
         try {
             engiInventory.addThing(engi);
+            engi.set_isOwnedByPlayer(true);
             System.out.println(engi.get_name() + " berhasil ditambahkan!\n");
         } catch (Exception e) {
             System.out.println(e.getMessage());

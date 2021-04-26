@@ -25,8 +25,9 @@ import java.util.Objects;
 import java.util.Vector;
 
 public class Main extends Application {
-    private Vector<Engimon> ListOfGeneratedEngimon = new Vector<>();
-    private Player P = new Player();
+    private Entities entities = new Entities();
+    private Vector<Engimon> ListOfGeneratedEngimon = entities.getListOfEngimon();
+    private Player P = entities.getPlayer();
     private Command cmd = new Command();
 
     Button button;
@@ -120,6 +121,7 @@ public class Main extends Application {
 
         battle = new Scene(rootBattle,600,340);
 
+
         //PANE FOR MAP
         Engimon starter = new Engimon();
         P.addEngimonPlayer(starter);
@@ -135,8 +137,11 @@ public class Main extends Application {
         scene = new Scene(root,1360,768);
 
         GraphicsContext gd = canvas.getGraphicsContext2D();
+        this.entities.setGD(gd);
         P.render(gd);
         starter.render(gd);
+
+        SpawnEngimon s = new SpawnEngimon();
 
             //MOVEMENT PLAYER and Wild Engimon
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -144,13 +149,6 @@ public class Main extends Application {
             public void handle(KeyEvent keyEvent) {
                 // Reset gambar setiap waktu
                 gd.clearRect(0,0,1360,768);
-
-                // Generate Wild Engimon
-                try {
-                    GenerateEngimon.generateEngimon(ListOfGeneratedEngimon,P);
-                }catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
 
                 if (keyEvent.getCode()==KeyCode.W){
                     cmd.inputCommand("left");
@@ -176,7 +174,7 @@ public class Main extends Application {
                     }
                 }
 
-                Peta.movingWildEngimon(ListOfGeneratedEngimon,P);
+                // Peta.movingWildEngimon(ListOfGeneratedEngimon,P);
 
                 P.render(gd);
                 P.getActiveEngimon().render(gd);
