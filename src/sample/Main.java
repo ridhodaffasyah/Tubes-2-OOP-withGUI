@@ -4,6 +4,10 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import sample.BackEnd.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +18,8 @@ import javafx.scene.image.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.Objects;
 import java.util.Vector;
 
@@ -24,6 +30,9 @@ public class Main extends Application {
 
     Button button;
     Button button2;
+    Button button3;
+    Button button4;
+    Button button5;
 
     public static void walk(String direction){
         cmd.inputCommand(direction);
@@ -32,11 +41,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        AudioClip soundMyNoise = new AudioClip(new File("sound/together.mp3").toURI().toString());
+        soundMyNoise.play();
 
         Pane rootStart = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("startmenu.fxml")));
 
         primaryStage.setTitle("Engimon's World!");
-        primaryStage.setScene(new Scene(rootStart, 1360, 768));
+        Scene first = new Scene(rootStart, 1360, 768);
+        primaryStage.setScene(first);
 
         Image image = new Image("/assets/mulai.png");
         ImageView imageView = new ImageView(image);
@@ -51,8 +63,6 @@ public class Main extends Application {
         button2 = new Button("",imageView2);
         button2.setLayoutX(520);
         button2.setLayoutY(620);
-
-        //button.setOnAction(actionEvent -> primaryStage.setScene());
 
         button2.setOnAction(actionEvent -> {
             Object node = actionEvent.getSource();
@@ -103,10 +113,77 @@ public class Main extends Application {
             }
         });
 
-        button.setOnAction(actionEvent -> primaryStage.setScene(scene));
+        Pane rootStarter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("starterengi.fxml")));
+
+        primaryStage.setTitle("Engimon's World!");
+        Scene second = new Scene(rootStarter, 1360, 768);
+        primaryStage.setScene(second);
+
+        Image image3 = new Image("/assets/back1.png");
+        ImageView imageView3 = new ImageView(image3);
+
+        button3 = new Button("",imageView3);
+        button3.setLayoutX(0);
+        button3.setLayoutY(0);
+
+        Image image4 = new Image("/assets/next1.png");
+        ImageView imageView4 = new ImageView(image4);
+
+        button4 = new Button("",imageView4);
+        button4.setLayoutX(1055);
+        button4.setLayoutY(0);
+
+        button.setOnAction(actionEvent -> primaryStage.setScene(second));
+
+        button3.setOnAction(actionEvent -> primaryStage.setScene(first));
+
+        rootStarter.getChildren().addAll(button3, button4);
+
+        Pane rootStory = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("story.fxml")));
+
+        primaryStage.setTitle("Engimon's World!");
+        Scene third = new Scene(rootStory, 1360, 768);
+        primaryStage.setScene(third);
+
+        Image image5 = new Image("/assets/next1.png");
+        ImageView imageView5 = new ImageView(image5);
+
+        button5 = new Button("",imageView5);
+        button5.setLayoutX(1055);
+        button5.setLayoutY(650);
+
+        Text t = new Text(50, 500,"Welcome to Engimon's World! The World where Engimon is Scattered!\n\n" +
+                "Pika  : Ash! I want to save my friends! meow~ \n" +
+                "Ash   : Yes pika! Let's save your friend and make this world safe!\n" +
+                "Pika  : Pikaaaachu!");
+
+        t.setFill(Color.WHITE);
+        t.setFont(Font.font("Arial", 25));
+
+        button4.setOnAction(actionEvent -> {
+            AudioClip soundMyNoise2 = new AudioClip(new File("sound/pikasound.wav").toURI().toString());
+            soundMyNoise2.play();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            primaryStage.setScene(third);
+        });
+
+        button5.setOnAction(actionEvent -> {
+            primaryStage.setScene(scene);
+            soundMyNoise.stop();
+            AudioClip soundMyNoise3 = new AudioClip(new File("sound/skyarrow.mp3").toURI().toString());
+            soundMyNoise3.setVolume(20);
+            soundMyNoise3.play();
+        });
+
+        rootStory.getChildren().addAll(t, button5);
 
         primaryStage.setFullScreen(false);
         primaryStage.setResizable(false);
+        primaryStage.setScene(first);
         primaryStage.show();
 
     }
