@@ -240,6 +240,7 @@ public class Command {
                 if (listOfWildEngimon.get(i).get_id()==eng2.get_id()){
                     Engimon dropEngimon = listOfWildEngimon.remove(i); //hapus ke-i
                     currentPlayer.addEngimonPlayer(dropEngimon);
+                    dropEngimon.set_isOwnedByPlayer(true);
                     System.out.println("Selamat, kamu mendapatkan " + dropEngimon.get_species());
                 }
             }

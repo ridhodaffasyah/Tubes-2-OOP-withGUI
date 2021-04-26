@@ -5,11 +5,12 @@ import sample.Sprite;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.Random;
 
-public class Engimon extends Sprite implements Comparable<Engimon>{
+public class Engimon extends Sprite implements Comparable<Engimon> {
     //protected atribut
     /*1*/ protected String name;
-    /*2*/ protected int life = 3;
+    /*2*/ protected int life;
     /*3.1*/ protected String parentsName;
     /*3.2*/ protected String species;
     /*4*/ protected List<EngimonSkill> engiSkill = new Vector<>();
@@ -17,6 +18,7 @@ public class Engimon extends Sprite implements Comparable<Engimon>{
     /*6*/ protected int level;
     /*7*/ protected int exp;
     /*8*/ protected int cumExp;
+    protected boolean isOwnedByPlayer;
     
     protected final int id = numOfEngimon+1;
     protected Point posisi;
@@ -29,9 +31,11 @@ public class Engimon extends Sprite implements Comparable<Engimon>{
     public Engimon(){
         //ini bakal buat engimon starter aja
         name = "Pikachu";
+        this.life = 3;
         this.species = "Cat";
         this.level = 1;
         this.posisi = new Point(1,0);
+        isOwnedByPlayer = true;
         elements = "Electric";
         parentsName = "Pika";
         numOfEngimon = numOfEngimon+1;
@@ -55,6 +59,7 @@ public class Engimon extends Sprite implements Comparable<Engimon>{
 
     public Engimon(Engimon engi){
         this.name = engi.name;
+        life = 1;
         this.parentsName = engi.parentsName;
         this.species = engi.species;
         this.level = engi.level;
@@ -65,16 +70,19 @@ public class Engimon extends Sprite implements Comparable<Engimon>{
         this.engiSkill = engi.engiSkill;
         this.life = engi.life;
         numOfEngimon = numOfEngimon+1;
+        this.isOwnedByPlayer = false;
     }
 
     public Engimon(String species, int level, Point posisi){
         name = "NONE";
+        life = 1;
         parentsName = "NONE";
         this.species = species;
         this.level = level;
         exp = 0;
         cumExp = level*100;
         this.posisi = posisi;
+        this.isOwnedByPlayer = false;
 
         numOfEngimon = numOfEngimon+1;
 
@@ -296,6 +304,7 @@ public class Engimon extends Sprite implements Comparable<Engimon>{
     public void set_posisi(Point P){
         posisi = P;     //bisa gini aja ngga sih?
     }
+    public void set_isOwnedByPlayer(boolean isOwned) { this.isOwnedByPlayer = isOwned; }
 
     //Dapet Exp, return 1 jika setelah mendapatkan exp levelnya melebihi max level (50). Return 0 jika sebaliknya.
     public int incExp(int expGet){

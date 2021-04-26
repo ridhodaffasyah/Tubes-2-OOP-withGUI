@@ -15,6 +15,7 @@ public class GenerateEngimon extends Generate{
             Point defaultPoint = new Point(0,0);
             int defaultLevel = randEngi.nextInt(11) + P.getHighestLevel();  //tambahin level engi wild
             Engimon generatedEngimon = new Engimon(vectorOfEngimon.get(randIdx).get(0),defaultLevel, defaultPoint);
+            EngimonThread thread_i = new EngimonThread(generatedEngimon);
 
             int xRandom = randEngi.nextInt(42);
             int yRandom =  randEngi.nextInt(24);
